@@ -5,6 +5,7 @@ var path = require('path');
 var app = express();
 const mysql = require('mysql');
 const UserController = require('./controllers/UserController')
+const users = require('./routes/user-routes')
 
 process.env.SECRET_KEY = "mybadasskey";
 
@@ -20,9 +21,7 @@ app.use('/', express.static(__dirname + '/views'));
 var config = require('./config/config.js');
 config.setConfig();
 
-app.post('/api/authenticate', (req, res) => {
-    new UserController(req, res).authenticate();
-});
+app.use('/api', users)
 
 app.listen(4000, function(){
     console.log("server is up");
