@@ -40,7 +40,7 @@ module.exports = class UserController {
                 }
             }
         } catch(err) {
-            console.log(err);
+            res.status(401).send("Dados incorretos");
         }    
     } 
 
