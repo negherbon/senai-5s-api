@@ -40,7 +40,7 @@ module.exports = class UserController {
                 }
             }
         } catch(err) {
-            res.status(401).send("Dados incorretos");
+            this._res.status(401).send("Dados incorretos");
         }    
     } 
 
