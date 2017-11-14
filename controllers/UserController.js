@@ -38,18 +38,20 @@ module.exports = class UserController {
                         token: token
                     });
                 }
-            }
+            } else {
+				this._res.status(401).send("Dados incorretos");
+			}
         } catch(err) {
-            this._res.status(401).send("Dados incorretos");
+            this._res.status(500).send("Ocorreu um erro ao realizar o login.");
         }    
     } 
 
     _verifyToken(token){
         jwt.verify(token, process.env.SECRET_KEY, (err, decode) => {
             if(err){
-                console.log('err' + err)
+                this._res.status(500).send(err);
             } else{
-                console.log('token valido');
+                this._res.status(400).send("Token não é válido");
             }
         })
     }
