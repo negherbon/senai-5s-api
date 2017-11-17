@@ -12,11 +12,11 @@ module.exports = class UserController {
     async authenticate(){
         var email = this._req.body.email;
         var password = this._req.body.password;
-        
+
         try {
             const data = await models.User.findOne({
                 where: {
-                    email: email,
+                    email: email
                 }           
             });
             if(data){
@@ -31,28 +31,27 @@ module.exports = class UserController {
                     var token = jwt.sign(user, process.env.SECRET_KEY, {
                         expiresIn: 400000
                     });
-    
+                    
                     this._verifyToken(token);
-
+                    
                     this._res.json({
-                        token: token
+                        token
                     });
+                    
                 }
             } else {
-				this._res.status(401).send("Dados incorretos");
+                this._res.status(401).send("Dados incorretos");
 			}
         } catch(err) {
             this._res.status(500).send("Ocorreu um erro ao realizar o login.");
         }    
     } 
-
+    
     _verifyToken(token){
         jwt.verify(token, process.env.SECRET_KEY, (err, decode) => {
             if(err){
-                this._res.status(500).send(err);
-            } else{
                 this._res.status(400).send("Token não é válido");
-            }
+            } 
         })
     }
 }
