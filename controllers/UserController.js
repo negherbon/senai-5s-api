@@ -10,6 +10,7 @@ module.exports = class UserController {
     }
 
     async authenticate(){
+        console.log('controller')
         var email = this._req.body.email;
         var password = this._req.body.password;
 
@@ -27,15 +28,14 @@ module.exports = class UserController {
                         email: email,
                         password: password
                     })
-    
+
                     var token = jwt.sign(user, process.env.SECRET_KEY, {
                         expiresIn: 400000
                     });
                     
-                    this._verifyToken(token);
-                    
                     this._res.json({
-                        token
+                        token: token,
+                        isAuth: true
                     });
                     
                 }
@@ -45,13 +45,5 @@ module.exports = class UserController {
         } catch(err) {
             this._res.status(500).send("Ocorreu um erro ao realizar o login.");
         }    
-    } 
-    
-    _verifyToken(token){
-        jwt.verify(token, process.env.SECRET_KEY, (err, decode) => {
-            if(err){
-                this._res.status(400).send("Token não é válido");
-            } 
-        })
     }
 }
