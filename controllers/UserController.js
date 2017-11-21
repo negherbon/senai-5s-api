@@ -10,7 +10,6 @@ module.exports = class UserController {
     }
 
     async authenticate(){
-        console.log('controller')
         var email = this._req.body.email;
         var password = this._req.body.password;
 
