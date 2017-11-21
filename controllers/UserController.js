@@ -19,9 +19,11 @@ module.exports = class UserController {
                     email: email
                 }           
             });
+
             if(data){
                 var hash = bcrypt.hashSync(data.password);
                 var isAuthenticated =  bcrypt.compareSync(password, hash);
+                
                 if(isAuthenticated){
                     var user = ({
                         email: email,
@@ -37,6 +39,8 @@ module.exports = class UserController {
                         isAuth: true
                     });
                     
+                }else{
+                    this._res.status(401).send("Dados incorretos");
                 }
             } else {
                 this._res.status(401).send("Dados incorretos");
