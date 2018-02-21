@@ -20,7 +20,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use('/', express.static(__dirname + '/views'));
 
-/* rotas */
+/*  rotas  */
 app.post('/authenticate', users);
 app.get('/main', main);
 
