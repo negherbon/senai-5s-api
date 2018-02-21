@@ -24,12 +24,6 @@ app.use('/', express.static(__dirname + '/views'));
 app.post('/authenticate', users);
 app.get('/main', main);
 
-
-function isAuthenticate(){
-  console.log('caiu aqui no auth')
-  return false;
-}
-
 app.listen(4000, function(){
     console.log("server is up");
 })  
