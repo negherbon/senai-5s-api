@@ -1,2 +1,2 @@
-# API de Login
-API responsável pelo login do aplicativo e da parte web.
+# API's
+Projeto responsável por todas as API's do mobile e webapp
