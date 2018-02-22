@@ -2,8 +2,8 @@ module.exports = (sequelize, DataTypes) => {
     
     var Evaluation = sequelize.define('Evaluation', {
         id: {
-            type: DataTypes.INTEGER,
-			primaryKey: true
+			primaryKey: true,
+            type: DataTypes.INTEGER
         },
         title: {
             type: DataTypes.STRING
