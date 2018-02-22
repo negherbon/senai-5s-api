@@ -2,6 +2,7 @@ module.exports = (sequelize, DataTypes) => {
     
     var Evaluation = sequelize.define('Evaluation', {
         id: {
+			primaryKey: true,
             type: DataTypes.INTEGER
         },
         title: {
