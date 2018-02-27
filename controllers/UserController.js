@@ -40,13 +40,13 @@ module.exports = class UserController {
                     });
                     
                 }else{
-                    this._res.status(401).send(Errors.INCORRECT_DATA);
+                    this._res.status(401).send("Dados incorretos");
                 }
             } else {
-                this._res.status(401).send(Errors.USER_NOT_FOUND);
+                this._res.status(401).send("Usuário não encontrado");
 			}
         } catch(err) {
-            this._res.status(500).send(Errors.LOGIN_ERROR);
+            this._res.status(500).send("Ocorreu um erro ao tentar realizar o login");
         }    
     }
 }
