@@ -4,7 +4,6 @@ var jwt = require('jsonwebtoken');
 var path = require('path');
 var app = express();
 const mysql = require('mysql');
-const UserController = require('./controllers/UserController')
 const users = require('./routes/user-routes')
 const main = require('./routes/main')
 
