@@ -22,6 +22,7 @@ app.use('/', express.static(__dirname + '/views'));
 /*  rotas  */
 app.post('/authenticate', users);
 app.get('/main', main);
+app.post('/users', users);
 
 app.listen(4000, function(){
     console.log("server is up");

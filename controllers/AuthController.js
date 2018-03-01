@@ -46,7 +46,7 @@ module.exports = class AuthController {
                 this._res.status(401).send("Usuário não encontrado");
 			}
         } catch(err) {
-            this._res.status(500).send("Ocorreu um erro ao tentar realizar o login");
+            this._res.status(500).send("Ocorreu um erro ao tentar realizar o login" + err);
         }    
     }
 }

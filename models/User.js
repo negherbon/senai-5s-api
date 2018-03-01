@@ -10,9 +10,20 @@
         email: {
             type: DataTypes.STRING
         },
+        userName: {
+            type: DataTypes.STRING
+        },
         password: {
             type: DataTypes.STRING
-        }
+        },
+        profile: {
+            type: DataTypes.STRING
+        },
+    },  
+    {
+        //para não ficar com table name zuado no banco
+        tableName: 'users' 
     });
+    
     return User;
   };
