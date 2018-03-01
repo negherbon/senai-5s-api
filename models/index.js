@@ -2,14 +2,13 @@ var fs        = require("fs");
 var path      = require("path");
 var Sequelize = require("sequelize");
 
-var sequelize = new Sequelize('senai_5s', 'root', '',{
+var sequelize = new Sequelize('senai_5s', 'root', 'root',{
   host: 'localhost',    
   dialect: 'mysql',
   define: {
       timestamps: false
   }
 });
-
 
 var db = {};
 
