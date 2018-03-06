@@ -1,7 +1,15 @@
+var jwt = require("jsonwebtoken");
+var mysql = require('mysql')
+var bcrypt = require('bcrypt-nodejs')
 var models  = require('../models');
 
 module.exports = class UserController {
-    save(user){
+    constructor(req, res){
+        this.req = req;
+        this.res = res;
+    }
+
+    async save(user){
         console.log('save' + user)
         user.userName = user.email.split("@")[0];
         models.User.create(user)
@@ -12,13 +20,13 @@ module.exports = class UserController {
             console.log(err);
         });
     }
-    load(req, res){
-        const data = models.User.findAll()
-        .then(function (users) {
-            res.status(200).json(users);
-        })
-        .catch(function(err){
+    async load(){
+        try {
+            const data = await models.User.findAll()
+            return this.res.json(data);
+        }
+        catch(err){
             console.log('err' + err);
-        })
+        }
     }
 }
