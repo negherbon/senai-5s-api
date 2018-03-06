@@ -13,8 +13,8 @@ router.post('/users', function(req, res) {
 });
 
 router.get('/users', function(req, res){
-    new userController(req, res).load();
-    console.log('resposta' + JSON.parse(res));
+    new userController(req, res).load()
+	.map(result => this.result = result.json().data);
 })
 
 module.exports = router;
