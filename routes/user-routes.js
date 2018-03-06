@@ -8,7 +8,13 @@ router.post('/authenticate', function(req, res) {
 });
 
 router.post('/users', function(req, res) {
-    new userController(req, res).save();
+    if(req.body)
+        new userController(req, res).save(req.body);
 });
+
+router.get('/users', function(req, res){
+    new userController(req, res).load();
+    console.log('resposta' + JSON.parse(res));
+})
 
 module.exports = router;
