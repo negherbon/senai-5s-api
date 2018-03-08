@@ -10,7 +10,6 @@ module.exports = class UserController {
     }
 
     async save(user){
-        console.log('save' + user)
         user.userName = user.email.split("@")[0];
         models.User.create(user)
         .then(function () {

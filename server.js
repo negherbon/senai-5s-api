@@ -6,8 +6,9 @@ var app = express();
 const mysql = require('mysql');
 const users = require('./routes/user-routes')
 const main = require('./routes/main')
+var jwt = require('express-jwt')
 
-process.env.SECRET_KEY = "mybadasskey";
+process.env.SECRET_KEY = "projeto@senai_5s@";
 
     app.use(function(req, res, next) {
         res.setHeader('Access-Control-Allow-Origin', '*');
@@ -20,10 +21,12 @@ process.env.SECRET_KEY = "mybadasskey";
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use('/', express.static(__dirname + '/views'));
+app.use(jwt({ secret: process.env.SECRET_KEY}).unless({path: ['/authenticate']}));
 
 /*  rotas  */
 app.post('/authenticate', users);
 app.get('/main', main);
+
 app.post('/users', users);
 app.get('/users', users);
 
