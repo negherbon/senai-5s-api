@@ -22,12 +22,14 @@ module.exports = class AuthController {
 
             if(data){
                 var hash = bcrypt.hashSync(data.password);
-                var isAuthenticated =  bcrypt.compareSync(password, hash);
+                var isAuthenticated = bcrypt.compareSync(password, hash);
                 
                 if(isAuthenticated){
                     var user = ({
                         email: email,
-                        password: password
+                        userName: data.userName,
+                        name: data.name,
+                        profile: data.profile
                     })
 
                     var token = jwt.sign(user, process.env.SECRET_KEY, {
@@ -39,12 +41,12 @@ module.exports = class AuthController {
                         isAuth: true
                     });
                     
-                }else{
+                }else
                     this._res.status(401).send("Dados incorretos");
-                }
-            } else {
+                
+            } else 
                 this._res.status(401).send("Usuário não encontrado");
-			}
+			
         } catch(err) {
             this._res.status(500).send("Ocorreu um erro ao tentar realizar o login" + err);
         }    
