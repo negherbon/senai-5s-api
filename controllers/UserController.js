@@ -9,23 +9,45 @@ module.exports = class UserController {
         this.res = res;
     }
 
-    async save(user){
+    save(user){
         user.userName = user.email.split("@")[0];
         models.User.create(user)
-        .then(function () {
-            console.log('ok')
+        .then(user => {
+            return this.res.json({message: "Usuário cadastrado com sucesso"});
         })
-        .catch(function (err) {
-            console.log(err);
+        .catch((err) => {
+            return this.res.json({message: "Erro ao salvar"})
         });
     }
-    async load(){
-        try {
-            const data = await models.User.findAll()
-            return this.res.json(data);
-        }
-        catch(err){
-            console.log('err' + err);
-        }
+    
+    load(){
+        models.User.findAll({})
+        .then(users => {
+            return this.res.json(users);
+        })
+        .catch((error) => {
+            return this.res.status(500).json(error)
+        });
+    }
+
+    update(){
+
+    }
+
+    remove(){
+        models.User.destroy({
+            where: {
+                id: this.req.params.id  
+            }
+        })
+        .then((deletedRecord) => {
+            if(deletedRecord === 1)
+                return this.res.status(200).json({message:"Deleted successfully"});         
+            else
+                return this.res.status(404).json({message:"record not found"})
+        })
+        .catch((error) => {
+           return this.res.status(500).json({message: error})
+        })
     }
 }
