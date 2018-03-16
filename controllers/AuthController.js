@@ -23,15 +23,14 @@ module.exports = class AuthController {
             if(data){
                 var hash = bcrypt.hashSync(data.password);
                 var isAuthenticated = bcrypt.compareSync(password, hash);
-                
                 if(isAuthenticated){
                     var user = ({
+                        id: data.id,
                         email: email,
                         userName: data.userName,
                         name: data.name,
                         profile: data.profile
                     })
-
                     var token = jwt.sign(user, process.env.SECRET_KEY, {
                         expiresIn: 400000
                     });

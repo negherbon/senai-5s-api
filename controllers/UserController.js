@@ -11,27 +11,25 @@ module.exports = class UserController {
 
     save(user){
         user.userName = user.email.split("@")[0];
-        models.User.create(user)
-        .then(user => {
-            return this.res.json({message: "Usuário cadastrado com sucesso"});
+        models.User.create(user)    
+        .then(res => {
+            return this.res.json({status: 201})
         })
         .catch((err) => {
-            return this.res.json({message: "Erro ao salvar"})
+            return this.res.status(500).json({message: err});
         });
     }
     
-    load(){
-        models.User.findAll({})
+    load(){ 
+        models.User.findAll({
+            attributes: { exclude: ['password'] }
+        })
         .then(users => {
             return this.res.json(users);
         })
         .catch((error) => {
-            return this.res.status(500).json(error)
+            return this.res.status(500);
         });
-    }
-
-    update(){
-
     }
 
     remove(){
@@ -42,12 +40,12 @@ module.exports = class UserController {
         })
         .then((deletedRecord) => {
             if(deletedRecord === 1)
-                return this.res.status(200).json({message:"Deleted successfully"});         
+                return this.res.json({status: 200, message: "Removido com sucesso!"});         
             else
-                return this.res.status(404).json({message:"record not found"})
+                return this.res.json({status: 404, message: "Registro não encontrado!"}); 
         })
         .catch((error) => {
-           return this.res.status(500).json({message: error})
+            return this.res.json({status: 500, message: "Erro de servidor"}); 
         })
     }
 }
