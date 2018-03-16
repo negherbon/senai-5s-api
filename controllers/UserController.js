@@ -9,23 +9,43 @@ module.exports = class UserController {
         this.res = res;
     }
 
-    async save(user){
+    save(user){
         user.userName = user.email.split("@")[0];
-        models.User.create(user)
-        .then(function () {
-            console.log('ok')
+        models.User.create(user)    
+        .then(res => {
+            return this.res.json({status: 201})
         })
-        .catch(function (err) {
-            console.log(err);
+        .catch((err) => {
+            return this.res.status(500).json({message: err});
         });
     }
-    async load(){
-        try {
-            const data = await models.User.findAll()
-            return this.res.json(data);
-        }
-        catch(err){
-            console.log('err' + err);
-        }
+    
+    load(){ 
+        models.User.findAll({
+            attributes: { exclude: ['password'] }
+        })
+        .then(users => {
+            return this.res.json(users);
+        })
+        .catch((error) => {
+            return this.res.status(500);
+        });
+    }
+
+    remove(){
+        models.User.destroy({
+            where: {
+                id: this.req.params.id  
+            }
+        })
+        .then((deletedRecord) => {
+            if(deletedRecord === 1)
+                return this.res.json({status: 200, message: "Removido com sucesso!"});         
+            else
+                return this.res.json({status: 404, message: "Registro não encontrado!"}); 
+        })
+        .catch((error) => {
+            return this.res.json({status: 500, message: "Erro de servidor"}); 
+        })
     }
 }

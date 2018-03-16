@@ -16,4 +16,8 @@ router.get('/users', function(req, res){
     new userController(req, res).load();
 })  
 
+router.delete('/users/:id', function(req, res){
+    new userController(req, res).remove();
+})
+
 module.exports = router;

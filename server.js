@@ -29,6 +29,8 @@ app.get('/main', main);
 
 app.post('/users', users);
 app.get('/users', users);
+app.delete('/users/:id', users);
+
 
 app.listen(4000, function(){
     console.log("server is up");
