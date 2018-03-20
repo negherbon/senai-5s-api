@@ -11,7 +11,24 @@ module.exports = class UserController {
 
     save(user){
         user.userName = user.email.split("@")[0];
+        user.password = this.generateHash(user.password);        
+
         models.User.create(user)    
+        .then(res => {
+            return this.res.json({status: 201})
+        })
+        .catch((err) => {   
+            return this.res.status(500).json({message: err});
+        });
+    }
+
+    update(user){
+        user.password = this.generateHash(user.password); 
+
+        return models.User.update(user,
+        { 
+            where: { id: user.id }
+        })
         .then(res => {
             return this.res.json({status: 201})
         })
@@ -47,5 +64,11 @@ module.exports = class UserController {
         .catch((error) => {
             return this.res.json({status: 500, message: "Erro de servidor"}); 
         })
+    }
+
+    generateHash(password){
+        var salt = bcrypt.genSaltSync(10);
+        password = bcrypt.hashSync(password, salt);
+        return password;
     }
 }

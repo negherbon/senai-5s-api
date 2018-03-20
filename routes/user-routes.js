@@ -12,6 +12,10 @@ router.post('/users', function(req, res) {
     new userController(req, res).save(req.body);
 });
 
+router.put('/users/:id', function(req, res){
+    new userController(req, res).update(req.body);
+})
+
 router.get('/users', function(req, res){
     new userController(req, res).load();
 })  
