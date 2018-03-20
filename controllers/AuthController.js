@@ -1,6 +1,6 @@
 var jwt = require("jsonwebtoken");
 var mysql = require('mysql')
-var bcrypt = require('bcrypt-nodejs')
+var bcrypt = require('bcrypt');
 var models  = require('../models');
 
 module.exports = class AuthController {
@@ -21,8 +21,8 @@ module.exports = class AuthController {
             });
 
             if(data){
-                var hash = bcrypt.hashSync(data.password);
-                var isAuthenticated = bcrypt.compareSync(password, hash);
+               var isAuthenticated =  bcrypt.compareSync(password, data.password);
+
                 if(isAuthenticated){
                     var user = ({
                         id: data.id,
