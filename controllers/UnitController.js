@@ -15,4 +15,14 @@ module.exports = class UnitController {
             return this.res.status(500).json({message: err});
         });
     }
+
+    load(){ 
+        models.Unit.findAll({})
+        .then(units => {
+            return this.res.json(units);
+        })
+        .catch((error) => {
+            return this.res.status(500);
+        });
+    }
 }
