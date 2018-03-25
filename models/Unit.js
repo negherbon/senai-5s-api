@@ -13,6 +13,9 @@ module.exports = (sequelize, DataTypes) => {
         city: {
             type: DataTypes.STRING
         },
+        state: {
+            type: DataTypes.STRING
+        },
     },  
     {
         tableName: 'units' 
