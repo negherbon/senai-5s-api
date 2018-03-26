@@ -4,9 +4,10 @@ var jwt = require('jsonwebtoken');
 var path = require('path');
 var app = express();
 const mysql = require('mysql');
-const users = require('./routes/user-routes')
 const main = require('./routes/main')
 var jwt = require('express-jwt')
+const users = require('./routes/user-routes')
+const units = require('./routes/unit-routes')
 
 process.env.SECRET_KEY = "projeto@senai_5s@";
 
@@ -31,6 +32,11 @@ app.post('/users', users);
 app.get('/users', users);
 app.delete('/users/:id', users);
 app.put('/users/:id', users);
+
+app.post('/units', units);
+app.get('/units', units);
+app.delete('/units/:id', units);
+app.put('/units/:id', units);
 
 
 app.listen(4000, function(){
