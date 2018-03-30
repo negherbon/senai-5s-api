@@ -31,4 +31,8 @@ Object.keys(db).forEach(function(modelName) {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
+if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+  db.sequelize.sync();
+}
+
 module.exports = db;
