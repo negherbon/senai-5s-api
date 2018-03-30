@@ -1,13 +1,15 @@
-var express = require('express');
-var bodyParser = require('body-parser');
-var jwt = require('jsonwebtoken');
-var path = require('path');
-var app = express();
-const mysql = require('mysql');
+var express = require('express')
+var bodyParser = require('body-parser')
+var jwt = require('jsonwebtoken')
+var path = require('path')
+var app = express()
+const mysql = require('mysql')
 const main = require('./routes/main')
 var jwt = require('express-jwt')
 const users = require('./routes/user-routes')
 const units = require('./routes/unit-routes')
+const enviromentTypes = require('./routes/enviroment-types-routes')
+const enviroments = require('./routes/enviroment-routes')
 
 process.env.SECRET_KEY = "projeto@senai_5s@";
 
@@ -37,6 +39,16 @@ app.post('/units', units);
 app.get('/units', units);
 app.delete('/units/:id', units);
 app.put('/units/:id', units);
+
+app.post('/enviromenttypes',enviromentTypes);
+app.get('/enviromenttypes', enviromentTypes);
+app.delete('/enviromenttypes/:id', enviromentTypes);
+app.put('/enviromenttypes/:id', enviromentTypes);
+
+app.post('/enviroments', enviroments);
+app.get('/enviroments', enviroments);
+app.delete('/enviroments/:id', enviroments);
+app.put('/enviroments/:id', enviroments);
 
 
 app.listen(4000, function(){
