@@ -21,7 +21,6 @@
         },
     },  
     {
-        //para não ficar com table name zuado no banco
         tableName: 'users' 
     });
     

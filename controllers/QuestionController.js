@@ -1,38 +1,35 @@
 var models = require('../models');
 
-module.exports = class EnviromentController {
+module.exports = class Question {
     constructor(req, res){
         this.req = req;
         this.res = res;
     }
 
-    save(enviroment){
-        console.log('enviromenttttt' + enviroment);
-        models.Enviroment.create(enviroment)    
+    save(question){
+        models.Question.create(question)    
         .then(res => {
             return this.res.json({status: 201})
         })
-        .catch((err) => {       
+        .catch((err) => {   
             return this.res.status(500).json({message: err});
         });
     }
 
     load(){ 
-        models.Enviroment.findAll({
-            include: [models.Unit, models.User, models.EnviromentType]
-        })
-        .then(enviroments => {
-            return this.res.json(enviroments);  
+        models.Question.findAll({})
+        .then(questions => {
+            return this.res.json(questions);
         })
         .catch((error) => {
             return this.res.status(500);
         });
     }
 
-    update(enviroment){
-        return models.Enviroment.update(enviroment,
+    update(question){
+        return models.Question.update(question,
         { 
-            where: { id: enviroment.id }
+            where: { id: question.id }
         })
         .then(res => {
             return this.res.json({status: 201})
@@ -43,8 +40,8 @@ module.exports = class EnviromentController {
     }
 
     remove(){
-        models.Enviroment.destroy({
-            where: {
+        models.Question.destroy({
+            where: {    
                 id: this.req.params.id  
             }
         })
