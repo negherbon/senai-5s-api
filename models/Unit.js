@@ -1,5 +1,5 @@
-  module.exports = (sequelize, DataTypes) => {  
-    const User = sequelize.define('User', {
+module.exports = (sequelize, DataTypes) => {  
+    const Unit = sequelize.define('Unit', {
 		id: {
 			primaryKey: true,
             type: DataTypes.INTEGER
@@ -7,22 +7,24 @@
         name: {
             type: DataTypes.STRING
         },
-        email: {
+        description: {
             type: DataTypes.STRING
         },
-        userName: {
+        city: {
             type: DataTypes.STRING
         },
-        password: {
-            type: DataTypes.STRING
-        },
-        profile: {
+        state: {
             type: DataTypes.STRING
         },
     },  
     {
-        tableName: 'users' 
+      classMethods: {
+        associate: function (models) {
+        
+        },
+      },
+      tableName: 'units' 
     });
     
-    return User;
+    return Unit;
   };

@@ -23,7 +23,10 @@ module.exports = class UserController {
     }
 
     update(user){
-        user.password = this.generateHash(user.password); 
+        if(user.password)
+            user.password = this.generateHash(user.password); 
+        else
+            delete user.password
 
         return models.User.update(user,
         { 
