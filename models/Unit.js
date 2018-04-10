@@ -20,9 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       classMethods: {
         associate: function (models) {
-          Unit.hasMany(models.Environment, {
-            foreignKey: 'units_id'
-          });
+        
         },
       },
       tableName: 'units' 

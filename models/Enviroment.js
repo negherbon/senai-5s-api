@@ -15,17 +15,24 @@ module.exports = (sequelize, DataTypes) => {
         },
         enviroment_types_id: {
             type: DataTypes.INTEGER
+        },
+        description: {
+            type: DataTypes.STRING
         }		
     },  
     {
         classMethods: {
             associate : function(models) {
-                Enviroment.belongsTo(models.User, { foreignKey: 'users_id'});
-                Enviroment.belongsTo(models.Unit, { foreignKey: 'units_id'});
-                Enviroment.belongsTo(models.EnviromentType, { foreignKey: 'enviroments_type_id'});
             },
         },
         tableName: 'enviroments' 
     });
+
+    Enviroment.associate = (models) => {
+        Enviroment.belongsTo(models.User, { foreignKey: 'users_id'});
+        Enviroment.belongsTo(models.Unit, { foreignKey: 'units_id'});
+        Enviroment.belongsTo(models.EnviromentType, { foreignKey: 'enviroment_types_id'});
+    };
+
     return Enviroment;
   };

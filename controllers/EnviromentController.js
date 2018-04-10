@@ -7,6 +7,7 @@ module.exports = class EnviromentController {
     }
 
     save(enviroment){
+        console.log('enviromenttttt' + enviroment);
         models.Enviroment.create(enviroment)    
         .then(res => {
             return this.res.json({status: 201})
@@ -18,9 +19,14 @@ module.exports = class EnviromentController {
 
     load(){ 
         models.Enviroment.findAll({
-            include: [models.Unit]
+            include: [models.Unit, models.User, models.EnviromentType]
         })
-
+        .then(enviroments => {
+            return this.res.json(enviroments);  
+        })
+        .catch((error) => {
+            return this.res.status(500);
+        });
     }
 
     update(enviroment){
