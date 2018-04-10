@@ -7,12 +7,25 @@ module.exports = class Question {
     }
 
     save(question){
-        models.Question.create(question)    
+        models.Question.create(question)
         .then(res => {
-            return this.res.json({status: 201})
+            return this.res.json({status: 201, questionId: res.id, enviromentTypesId: question.enviroment_types_id})
         })
         .catch((err) => {   
-            return this.res.status(500).json({message: err});
+            return this.res.status(500);       
+        });
+    }
+
+    saveInAssociateTable(relatedIds){
+        relatedIds.enviroments.forEach(enviromentId => {
+            var items = {questions_id: relatedIds.questionId, enviroment_types_id: enviromentId};
+            models.EnviromentTypeQuestion.create(items)
+            .then(res => {  
+                return this.res.status(200);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
         });
     }
 
@@ -32,6 +45,7 @@ module.exports = class Question {
             where: { id: question.id }
         })
         .then(res => {
+            console.log('res' + res);
             return this.res.json({status: 201})
         })
         .catch((err) => {

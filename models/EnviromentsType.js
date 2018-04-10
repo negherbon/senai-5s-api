@@ -13,9 +13,14 @@ module.exports = (sequelize, DataTypes) => {
         }
     },
     {
+        classMethods: {
+            associate : function(models) { },
+        },
+
         //para não ficar com table name zuado no banco
         tableName: 'enviroment_types' 
     });
+
 
     return EnviromentType;
 };

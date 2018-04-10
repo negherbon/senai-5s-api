@@ -32,11 +32,6 @@ module.exports = (sequelize, DataTypes) => {
         Enviroment.belongsTo(models.User, { foreignKey: 'users_id'});
         Enviroment.belongsTo(models.Unit, { foreignKey: 'units_id'});
         Enviroment.belongsTo(models.EnviromentType, { foreignKey: 'enviroment_types_id'});
-        Enviroment.belongsToMany(models.Question, {
-            through: 'enviroments_has_questions',
-            as: 'enviroments',
-            foreignKey: 'enviroments_id'
-        });
     };
 
     return Enviroment;
