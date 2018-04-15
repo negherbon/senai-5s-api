@@ -3,24 +3,25 @@ module.exports = (sequelize, DataTypes) => {
     var Question = sequelize.define('Question', {
         id: {
 			primaryKey: true,
-            type: DataTypes.INTEGER
+            type: DataTypes.INTEGER,
+            autoIncrement: true
         },
         title: {
             type: DataTypes.STRING
         },
+
+        description: {
+            type: DataTypes.STRING
+        }
     },
     {
-        //para não ficar com table name zuado no banco
-        tableName: 'questions' 
-    });
+        classMethods: {
+            associate : function(models) { },
+        },
 
-    Question.associate = (models) => {
-        Question.belongsToMany(models.Enviroment, {
-            through: 'enviroments_has_questions',
-            as: 'questions',
-            foreignKey: 'questions_id'
-        });
-    }
+        tableName: 'questions' 
+        
+    });
 
     return Question;
 };
