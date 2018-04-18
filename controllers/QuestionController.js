@@ -38,11 +38,13 @@ module.exports = class Question {
 
     getRelatedItems(question) {
         models.EnviromentTypeQuestion.findAll({
-        include: [models.Question],
+            include: [{
+                model: models.Question,
+                require: true  
+            }],
             where: {
-                questions_id: question.id
-            },
-            attributes: ['enviroment_types_id', 'questions_id']
+                questions_id: question.id 
+            }
         })
         .then(questions => {
             return this.res.json(questions);
