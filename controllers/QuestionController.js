@@ -6,7 +6,7 @@ module.exports = class Question {
         this.res = res;
     }
 
-    save(question){
+    save(question) {
         models.Question.create(question)
         .then(res => {
             return this.res.json({status: 201, questions_id: res.id, enviroment_types_id: question.enviroment_types_id})
@@ -16,17 +16,34 @@ module.exports = class Question {
         });
     }
 
-    saveInAssociateTable(relatedIds){
-        var items = {questions_id: relatedIds.questionId, enviroment_types_id: relatedIds.enviromentTypeId};
-        models.EnviromentTypeQuestion.create(items)
-        .then(res => {  
-            return this.res.status(200);
+    saveInAssociateTable(relatedIds) {
+        var idsToInsert = [];
+        relatedIds.enviromentTypeId.forEach(envtypeId => {
+            idsToInsert.push({questions_id: relatedIds.questionId, enviroment_types_id: envtypeId})
+        });
+        models.EnviromentTypeQuestion.bulkCreate(idsToInsert)
+        .then(res => {
         })
-        .catch((err) => {
+        .catch((err) => {   
+            return this.res.status(500);       
+        });
+    }
+
+    removeAssociatedItems(questionId) {
+        models.EnviromentTypeQuestion.destroy({
+            where: {    
+                questions_id: questionId 
+            }
+        })
+        .then(res => {
+            return this.res.json({status: 201})
+        })
+        .catch((err) =>{
+            return this.res.json({status: 500})
         })
     }
 
-    load(){ 
+    load() {
         models.Question.findAll({})
         .then(questions => {
             return this.res.json(questions);
@@ -54,7 +71,7 @@ module.exports = class Question {
         })
     }
     
-    update(question){
+    update(question) {
         models.Question.update(question,
         { 
             where: { id: question.id }
@@ -67,7 +84,7 @@ module.exports = class Question {
         });
     }
 
-    remove(){
+    remove() {
         models.Question.destroy({
             where: {    
                 id: this.req.params.id  
