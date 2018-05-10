@@ -21,11 +21,24 @@ module.exports = class EvaluationController {
     save(evaluation){
         models.Evaluation.create(evaluation)
         .then(res => {
-            return this.res.status(201);
+            return this.res.json({status: 201})
         })
         .catch((err) => {
             return this.res.json({error: err})
         })
+    }
+
+    update(evaluation){
+        return models.Evaluation.update(evaluation,
+        { 
+            where: { id: evaluation.id }
+        })
+        .then(res => {
+            return this.res.json({status: 201})
+        })
+        .catch((err) => {
+            return this.res.status(500).json({message: err});
+        });
     }
 
     remove() {
