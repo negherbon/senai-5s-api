@@ -1,3 +1,4 @@
+require('dotenv').config();
 var express = require('express')
 var bodyParser = require('body-parser')
 var jwt = require('jsonwebtoken')
@@ -13,8 +14,6 @@ const enviromentTypesRoutes = require('./routes/enviroment-types-routes')
 const enviromentsRoutes = require('./routes/enviroment-routes')
 const questionsRoutes = require('./routes/question-routes')
 const evaluationsRoutes = require('./routes/evaluation-routes')
-
-process.env.SECRET_KEY = "projeto@senai_5s@";
 
 app.use(function(req, res, next) {
     res.setHeader('Access-Control-Allow-Origin', '*');
