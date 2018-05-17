@@ -22,15 +22,17 @@ app.use(function(req, res, next) {
     res.setHeader('Access-Control-Allow-Credentials', true);
     next();
 });
+
+
   
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use('/', express.static(__dirname + '/views'));
-app.use(jwt({ secret: process.env.SECRET_KEY}).unless({path: ['/authenticate']}));
+// app.use(jwt({ secret: process.env.SECRET_KEY}).unless({path: ['/authenticate']}));
 
 // routes
 app.use([usersRoutes, unitsRoutes, evaluationsRoutes, enviromentTypesRoutes, enviromentsRoutes, questionsRoutes]);
 
-app.listen(4000, function(){
+app.listen(process.env.PORT || 4000, function(){
     console.log("server is up");
 })  
