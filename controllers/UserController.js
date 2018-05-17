@@ -42,7 +42,7 @@ module.exports = class UserController {
     
     load(){ 
         models.User.findAll({
-            attributes: { exclude: ['password'] }
+            //attributes: { exclude: ['password'] }
         })
         .then(users => {
             return this.res.json(users);
