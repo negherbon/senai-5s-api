@@ -4,8 +4,6 @@ const settings = require('config');
 var fs = require("fs");
 var path = require("path");
 
-console.log('settings', settings)
-
 const sequelize = new Sequelize(settings.database.name, settings.database.user, settings.database.password, {
   host: settings.database.host,
   dialect: 'postgres',
