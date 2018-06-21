@@ -2,6 +2,7 @@ var jwt = require("jsonwebtoken");
 var mysql = require('mysql')
 var bcrypt = require('bcrypt-nodejs')
 var models  = require('../models');
+var emailController = require('./EmailController');
 
 module.exports = class UserController {
     constructor(req, res){
@@ -27,6 +28,7 @@ module.exports = class UserController {
     }
 
     update(user){
+
         if(user.password)
             user.password = this.generateHash(user.password); 
         else
@@ -87,5 +89,34 @@ module.exports = class UserController {
         var salt = bcrypt.genSaltSync(10);
         password = bcrypt.hashSync(password, salt);
         return password;
+    }
+
+    async verifyEmail(){
+        let email = this.req.query.email;
+
+        let data = await models.User.findOne({
+            where: {
+                email: email
+            }
+        })
+        if(data){
+            let user = ({
+                id: data.id,
+                email: email,
+                name: data.name
+            })
+
+            var token = jwt.sign(user, process.env.SECRET_KEY, {
+                 expiresIn: '6h'
+            });           
+
+            const emailWasSent = await new emailController().sendEmail(token, user);
+            console.log('resp',emailWasSent)
+            if(emailWasSent)
+                return this.res.status(201).json({msg: 'E-mail enviado com sucesso para ' + email})
+
+        } else {
+            this.res.status(404).json({msg: 'Este e-mail não existe na base de dados!'});
+        }
     }
 }
