@@ -32,7 +32,7 @@ module.exports = class AuthController {
                         profile: data.profile
                     })
                     var token = jwt.sign(user, process.env.SECRET_KEY, {
-                        expiresIn: 400000
+                        expiresIn: '12h'
                     });
                     
                     this._res.json({
