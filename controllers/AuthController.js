@@ -79,7 +79,7 @@ module.exports = class AuthController {
                     });
                     
                     this._res.json({
-                        token: token,
+                        id: data.id,
                         isFirstAccess: true
                     });
                     
@@ -92,5 +92,45 @@ module.exports = class AuthController {
         } catch(err) {
             this._res.status(500).send("Ocorreu um erro ao tentar realizar o login" + err);
         }    
+    }
+
+    async firstAccess(){
+        var id = this._req.body.id;
+        var password = this._req.body.password;
+    
+        try {
+            const data = await models.User.findOne({
+                where: {
+                    id: id
+                }           
+            });
+
+            if(data){
+               var isAuthenticated =  bcrypt.compareSync('newPasswordFirstAccess', data.password);
+                password = this.generateHash(password);
+     
+                return models.User.update({password: password}, { where: { id: id }})
+                .then(res => {
+                    return this.res.status(200).json({
+                        type: 'success', message: 'Senha cadastrada com sucesso'
+                    })
+                })
+                .catch((error) => {
+                    return this._res.status(500).json({
+                        type: 'error', message: err, errorDetails: error
+                    });
+                });
+            }else
+                this._res.status(401).send("Usuario já realizou o primeiro acesso");
+			
+        } catch(err) {
+            this._res.status(500).send("Ocorreu um erro ao tentar realizar o login" + err);
+        }    
+    }
+
+    generateHash(password){
+        var salt = bcrypt.genSaltSync(10);
+        password = bcrypt.hashSync(password, salt);
+        return password;
     }
 }

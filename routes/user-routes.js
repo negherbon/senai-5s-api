@@ -12,6 +12,9 @@ router.post('/validateFirstAccess', function(req, res) {
     new authController(req, res).validateFirstAccess();
 });
 
+router.post('/firstAccess', function(req, res) {
+    new authController(req, res).firstAccess();
+});
 
 router.post('/users', function(req, res) {
     new userController(req, res).save(req.body);
