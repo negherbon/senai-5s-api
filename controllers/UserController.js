@@ -2,7 +2,7 @@ var jwt = require("jsonwebtoken");
 var mysql = require('mysql')
 var bcrypt = require('bcrypt-nodejs')
 var models  = require('../models');
-var emailController = require('./EmailController')
+var emailController = require('./EmailController');
 
 module.exports = class UserController {
     constructor(req, res){
@@ -28,7 +28,6 @@ module.exports = class UserController {
     }
 
     update(user){
-        console.log('aoksdoaskdkoasd', user);
 
         if(user.password)
             user.password = this.generateHash(user.password); 
@@ -111,7 +110,13 @@ module.exports = class UserController {
                  expiresIn: '6h'
             });           
 
-            new emailController().sendEmail(token, user);
+            const emailWasSent = await new emailController().sendEmail(token, user);
+            console.log('resp',emailWasSent)
+            if(emailWasSent)
+                return this.res.status(201).json({msg: 'E-mail enviado com sucesso para ' + email})
+
+        } else {
+            this.res.status(404).json({msg: 'Este e-mail não existe na base de dados!'});
         }
     }
 }

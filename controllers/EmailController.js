@@ -6,7 +6,7 @@ module.exports = class EmailController {
         this.res = res;
     }
 
-    sendEmail(token, user) {
+    async sendEmail(token, user) {
         const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
@@ -15,21 +15,22 @@ module.exports = class EmailController {
             }
         })
 
-        var url = "http://localhost:8080/new-password.html?user=" + user.id + "&token=" + token;
+        var url = `http://localhost:8080/new-password.html?user=${user.id}&token=${token}`;
 
         const mailOptions = {
-            from: 'suportesenai5s@gmail.com',
+            from: 'SENAI 5S <suportesenai5s@gmail.com>',
             to: user.email, 
-            subject: 'Subject test', 
-            html: url
+            subject: 'Recuperação de Senha', 
+            html: `"<p>Olá, </p>" +
+                  "</br> <p>Você solicitou a alteração de sua senha recentemente. Para alterar a senha, basta acessar o </p>" +
+                  "<a href="{url}"` 
         };
 
-        transporter.sendMail(mailOptions, function (err, info) {
+        var response = true;
+        await transporter.sendMail(mailOptions).then((data, err) => {
             if(err)
-              console.log(err)
-            else
-              console.log(info);
-         });
-    }
-
+                response = false;
+        })
+        return response;
+    };
 }
