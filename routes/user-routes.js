@@ -9,11 +9,11 @@ router.post('/authenticate', function(req, res) {
 });
 
 router.post('/validateFirstAccess', function(req, res) {
-    new authController(req, res).validateFirstAccess();
+    new userController(req, res).validateFirstAccess();
 });
 
 router.post('/firstAccess', function(req, res) {
-    new authController(req, res).firstAccess();
+    new userController(req, res).firstAccess();
 });
 
 router.post('/users', function(req, res) {
