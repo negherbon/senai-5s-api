@@ -145,4 +145,81 @@ module.exports = class UserController {
             this.res.status(404).json({msg: 'Este e-mail não existe na base de dados!'});
         }
     }
+
+
+    async validateFirstAccess(){
+        var email = this.req.body.email;
+        var cbFirstAccess = this.req.body.cbFirstAccess;
+
+        try {
+            const data = await models.User.findOne({
+                where: {
+                    email: email
+                }           
+            });
+
+            if(data){
+               var isAuthenticated =  bcrypt.compareSync('newPasswordFirstAccess', data.password);
+
+                if(isAuthenticated){
+                    var user = ({
+                        id: data.id,
+                        email: email,
+                        userName: data.userName,
+                        name: data.name,
+                        profile: data.profile
+                    })
+                    var token = jwt.sign(user, process.env.SECRET_KEY, {
+                        expiresIn: 400000
+                    });
+                    
+                    this.res.json({
+                        id: data.id,
+                        isFirstAccess: true
+                    });
+                    
+                }else
+                    this.res.status(401).send("Usuario já realizou o primeiro acesso");
+                
+            } else 
+                this.res.status(401).send("Usuário não encontrado");
+			
+        } catch(err) {
+            this.res.status(500).send("Ocorreu um erro ao tentar realizar o login" + err);
+        }    
+    }
+
+    async firstAccess(){
+        var id = this.req.body.id;
+        var password = this.req.body.password;
+    
+        try {
+            const data = await models.User.findOne({
+                where: {
+                    id: id
+                }           
+            });
+
+            if(data){
+               var isAuthenticated =  bcrypt.compareSync('newPasswordFirstAccess', data.password);
+                password = this.generateHash(password);
+     
+                return models.User.update({password: password}, { where: { id: id }})
+                .then(res => {
+                    return this.res.status(200).json({
+                        type: 'success', message: 'Senha cadastrada com sucesso'
+                    })
+                })
+                .catch((error) => {
+                    return this.res.status(500).json({
+                        type: 'error', message: err, errorDetails: error
+                    });
+                });
+            }else
+                this.res.status(401).send("Usuario já realizou o primeiro acesso");
+			
+        } catch(err) {
+            this.res.status(500).send("Ocorreu um erro ao tentar realizar o login" + err);
+        }    
+    }
 }
