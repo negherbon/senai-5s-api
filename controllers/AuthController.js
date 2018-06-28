@@ -21,7 +21,48 @@ module.exports = class AuthController {
             });
 
             if(data){
-               var isAuthenticated =  bcrypt.compareSync(password, data.password);
+               var isValid =  bcrypt.compareSync(password, data.password);
+                if(isValid){
+                    var user = ({
+                        id: data.id,
+                        email: email,
+                        userName: data.userName,
+                        name: data.name,
+                        profile: data.profile
+                    })
+                    var token = jwt.sign(user, process.env.SECRET_KEY, {
+                        expiresIn: '12h'
+                    });
+                    
+                    this._res.json({
+                        token: token,
+                        isAuth: true
+                    });
+                    
+                } else
+                    this._res.status(401).send("A senha está incorreta!");
+                
+            } else 
+                this._res.status(401).send("Usuário não encontrado!");
+			
+        } catch(err) {
+            this._res.status(500).send("Ocorreu um erro ao tentar realizar o login" + err);
+        }    
+    }
+
+    async validateFirstAccess(){
+        var email = this._req.body.email;
+        var cbFirstAccess = this._req.body.cbFirstAccess;
+
+        try {
+            const data = await models.User.findOne({
+                where: {
+                    email: email
+                }           
+            });
+
+            if(data){
+               var isAuthenticated =  bcrypt.compareSync('newPasswordFirstAccess', data.password);
 
                 if(isAuthenticated){
                     var user = ({
@@ -37,11 +78,11 @@ module.exports = class AuthController {
                     
                     this._res.json({
                         token: token,
-                        isAuth: true
+                        isFirstAccess: true
                     });
                     
                 }else
-                    this._res.status(401).send("Dados incorretos");
+                    this._res.status(401).send("Usuario já realizou o primeiro acesso");
                 
             } else 
                 this._res.status(401).send("Usuário não encontrado");
