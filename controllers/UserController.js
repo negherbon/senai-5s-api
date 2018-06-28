@@ -49,6 +49,33 @@ module.exports = class UserController {
             });
         });
     }
+
+    updatePassword(user) {
+
+        if(user.password) {
+            var encryptedPassword = this.generateHash(user.password); 
+
+            console.log('encrypt', encryptedPassword)
+
+            return models.User.update(
+            { 
+                password: encryptedPassword 
+            },
+            { 
+                where: { id: user.id }
+            })
+            .then(res => {
+                return this.res.status(200).json({
+                    type: 'success', message: 'Senha alterada com sucesso'
+                })
+            })
+            .catch((error) => {
+                return this.res.status(500).json({
+                    type: 'error', message: err, errorDetails: error
+                });
+            })
+        }
+    }
     
     load(){ 
         models.User.findAll({
@@ -111,7 +138,6 @@ module.exports = class UserController {
             });           
 
             const emailWasSent = await new emailController().sendEmail(token, user);
-            console.log('resp',emailWasSent)
             if(emailWasSent)
                 return this.res.status(201).json({msg: 'E-mail enviado com sucesso para ' + email})
 

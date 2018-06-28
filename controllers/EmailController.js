@@ -15,15 +15,16 @@ module.exports = class EmailController {
             }
         })
 
-        var url = `http://localhost:8080/new-password.html?user=${user.id}&token=${token}`;
-
+        var url = `http://localhost:8080/new-password.html?token=${token}&id=${user.id}`;
         const mailOptions = {
             from: 'SENAI 5S <suportesenai5s@gmail.com>',
             to: user.email, 
             subject: 'Recuperação de Senha', 
-            html: `"<p>Olá, </p>" +
-                  "</br> <p>Você solicitou a alteração de sua senha recentemente. Para alterar a senha, basta acessar o </p>" +
-                  "<a href="{url}"` 
+            html: `<p>Olá,</p>
+                  </br>
+                  <p>Você solicitou a alteração de sua senha recentemente. Para alterar a senha, basta acessar o link: </p>
+                  </br>
+                  ${url}`
         };
 
         var response = true;

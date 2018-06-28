@@ -21,6 +21,10 @@ router.put('/users/:id', function(req, res){
     new userController(req, res).update(req.body);
 })
 
+router.put('/updatePassword/:id', function(req, res){
+    new userController(req, res).updatePassword(req.body);
+})
+
 router.get('/users', function(req, res){
     new userController(req, res).load();
 })  
