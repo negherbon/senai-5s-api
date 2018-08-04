@@ -1,4 +1,5 @@
 var models = require('../models');
+var db = require('../models/index')
 
 module.exports = class EnviromentTypeController {
     constructor(req, res){
@@ -47,6 +48,22 @@ module.exports = class EnviromentTypeController {
         });
     }
 
+    loadEnviromentsTypeByUnit() {
+         db.sequelize.query(
+             "select distinct et.name, et.id from enviroments e " +
+             "inner join enviroment_types et on et.id = e.enviroment_types_id " +
+             "where e.units_id = " + this.req.params.unitId,
+             { type: db.sequelize.QueryTypes.SELECT })
+        .then(enviroments => {
+            return this.res.status(200).json(enviroments)
+        })
+        .catch((error) =>{
+            return this.res.status(500).json({
+                type: 'error', message: "Erro de servidor", errorDetails: error
+            })
+        })
+    }
+
     remove(){
         models.EnviromentType.destroy({
             where: {
@@ -72,10 +89,10 @@ module.exports = class EnviromentTypeController {
         })
     }
 
-    removeAssociatedItems(enviromentTypeId) {
+    removeAssociatedItems(questionId) {
         models.EnviromentTypeQuestion.destroy({
             where: {    
-                enviroment_types_id: enviromentTypeId 
+                questions_id: questionId 
             }
         })
         .then(res => {

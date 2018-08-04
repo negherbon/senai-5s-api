@@ -15,8 +15,13 @@ router.get('/units', function(req, res){
     new unitController(req, res).load();
 })  
 
+router.get('/units/:questionId', function(req, res){
+    new unitController(req, res).getUnitByEnviromentType();
+})
+
 router.delete('/units/:id', function(req, res){
     new unitController(req, res).remove();
 })
+
 
 module.exports = router;

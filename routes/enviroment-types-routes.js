@@ -23,4 +23,8 @@ router.delete('/associate/:id', function(req, res) {
     new enviromentTypeController(req, res).removeAssociatedItems(req.params.id);
 })
 
+router.get('/enviromenttypes/:unitId', function(req, res){
+    new enviromentTypeController(req, res).loadEnviromentsTypeByUnit();
+})
+
 module.exports = router;
