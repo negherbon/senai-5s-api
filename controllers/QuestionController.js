@@ -30,20 +30,6 @@ module.exports = class Question {
         });
     }
 
-    removeAssociatedItems(questionId) {
-        models.EnviromentTypeQuestion.destroy({
-            where: {    
-                questions_id: questionId 
-            }
-        })
-        .then(res => {
-            return this.res.status(200).json({type: 'success', msg: 'Tipos de ambientes que estavam vinculados, foram removidos.'});
-        })
-        .catch((error) =>{
-            return this.res.status(500).json({errorDetails: error})
-        })
-    }
-
     load() {
         models.Question.findAll({})
         .then(questions => {
