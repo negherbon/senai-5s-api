@@ -26,7 +26,6 @@ module.exports = class AuthController {
                     var user = ({
                         id: data.id,
                         email: email,
-                        userName: data.userName,
                         name: data.name,
                         profile: data.profile
                     })
@@ -68,7 +67,6 @@ module.exports = class AuthController {
                     var user = ({
                         id: data.id,
                         email: email,
-                        userName: data.userName,
                         name: data.name,
                         profile: data.profile
                     })

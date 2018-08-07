@@ -11,9 +11,6 @@
         email: {
             type: DataTypes.STRING
         },
-        userName: {
-            type: DataTypes.STRING
-        },
         password: {
             type: DataTypes.STRING
         },
