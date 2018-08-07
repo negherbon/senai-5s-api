@@ -11,7 +11,6 @@ module.exports = class UserController {
     }
 
     save(user){
-        user.userName = user.email.split("@")[0];
         user.password = this.generateHash(user.password);        
 
         models.User.create(user)    
@@ -165,7 +164,6 @@ module.exports = class UserController {
                     var user = ({
                         id: data.id,
                         email: email,
-                        userName: data.userName,
                         name: data.name,
                         profile: data.profile
                     })
